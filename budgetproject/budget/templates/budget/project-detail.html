@@ -118,16 +118,21 @@ fetch('', {
 }
 </script>
 
-<canvas id="myChart" width="400" height="400"></canvas>
+{% block scripts %}
+<canvas id="myChart" width="400" height="200"></canvas>
 <script>
 var ctx = document.getElementById('myChart').getContext('2d');
 var myChart = new Chart(ctx, {
-    type: 'bar',
+    type: 'doughnut',
     data: {
-        labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+        labels: [{% for category in category_list %}
+        '{{ category.name }}'
+        ,{% endfor %}],
         datasets: [{
             label: '# of Votes',
-            data: [12, 19, 3, 5, 2, 3],
+            data:[{% for expense in expense_list %}
+                    '{{expense.amount}}',
+                    {% endfor %}],
             backgroundColor: [
                 'rgba(255, 99, 132, 0.2)',
                 'rgba(54, 162, 235, 0.2)',
@@ -146,16 +151,25 @@ var myChart = new Chart(ctx, {
             ],
             borderWidth: 1
         }]
-    },
-    options: {
-        scales: {
-            yAxes: [{
-                ticks: {
-                    beginAtZero: true
-                }
-            }]
+        
+    },xAxes: [{
+      scaleLabel: {
+        display: true,
+        labelString: 'Date',
+      },
+      type: 'time', 
+      time: {
+           parser: 'YYYY-MM-DD HH:mm:ss',
+           unit: 'day',
+           displayFormats: {
+              day: 'MMM-DD'
+            }
         }
-    }
+   }]
+    
 });
 </script>
+
+{% endblock scripts %}
+
 {% endblock %}
