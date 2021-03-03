@@ -1,6 +1,7 @@
 from django.db import models
 from django.utils.text import slugify
 
+
 # Create your models here.
 class Project(models.Model):
     name = models.CharField(max_length=100)
@@ -22,11 +23,12 @@ class Project(models.Model):
         total_expense_amount = 0
         for expense in expense_list:
             total_expense_amount += expense.amount
-            
+           
         # temporary solution, because the form currently only allows integer amounts
         total_expense_amount = int(total_expense_amount)
             
         return self.budget - total_expense_amount
+    
     
 class Category(models.Model):
     project = models.ForeignKey(Project, on_delete=models.CASCADE)
@@ -37,6 +39,6 @@ class Expense(models.Model):
     title = models.CharField(max_length=100)
     amount = models.DecimalField(max_digits=8, decimal_places=2)
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
-
     class Meta:
         ordering = ('-amount',)
+
