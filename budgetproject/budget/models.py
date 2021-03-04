@@ -1,6 +1,6 @@
 from django.db import models
 from django.utils.text import slugify
-
+from django.utils import timezone
 
 # Create your models here.
 class Project(models.Model):
@@ -39,6 +39,7 @@ class Expense(models.Model):
     title = models.CharField(max_length=100)
     amount = models.DecimalField(max_digits=8, decimal_places=2)
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
+    date_posted = models.DateTimeField(default=timezone.now)
     class Meta:
         ordering = ('-amount',)
 

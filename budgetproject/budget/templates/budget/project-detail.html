@@ -2,7 +2,7 @@
 {% block content %}
 <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.3/dist/Chart.min.js"></script>
 <div class='container'>
-
+    
     <section class="section section-stats">
         <div class='row'>
             <div class='col s12 m6 l4'>
@@ -53,12 +53,16 @@
                             <span class='title bold '> {{ expense.title }} </span>    
                         </div>
 
-                        <div class="col l3 ">
+                        <div class="col l4 ">
                             <span class='title'> ${{ expense.amount }} </span>    
                         </div>
 
-                        <div class="col l ">
+                        <div class="col l2 ">
                             <span class='title'>{{ expense.category.name }}</span>    
+                        </div>
+
+                        <div class="col l ">
+                            <span class='title'>{{ expense.date_posted }}</span>    
                         </div>
 
                         <a class="close-icon" onclick="deleteExpense(this)" data-id="{{ expense.id }}">
@@ -69,8 +73,7 @@
             </li>
             {% endfor %}
         </ul>
-    </section>
-</div>
+
 
 <div id='expenseModal' class='modal'>
     <div class="modal-content">
@@ -92,6 +95,8 @@
         </form>
     </div>
 </div>
+
+
 
 <script>
 var elem = document.querySelector('.modal')
@@ -160,13 +165,13 @@ window.onload = function(){
     var myChart2 = new Chart(ctx2, {
         type: 'doughnut',
         data: {
-            labels: [{% for i in totalexpense %}
-            '{{ i.category__name }}'
+            labels: [{% for i in expensename %}
+            '{{ i.title }}'
             ,{% endfor %}],
             datasets: [{
                 label: '# of Votes',
-                data:[{% for i in totalexpense %}
-            '{{ i.total_price }}'
+                data:[{% for i in expensename %}
+            '{{ i.amount }}'
             ,{% endfor %}],
                 backgroundColor: [
                     'rgba(255, 99, 132, 0.2)',
@@ -197,9 +202,27 @@ window.onload = function(){
 
 </script>
 <div align="center">
+    <div id='selectCategory' class='selection' style=>
+        <div class="selection">
+            <h4> NANI </h4>
+            <form method='POST'>
+                {% csrf_token %}
+                <select name='category' id="selectCategory2">
+                    {% for category in category_list %}
+                        <option>{{ category.name }}</option>
+                    {% endfor %}
+                </select>
+                <button type="submit" class="btn"> Help me </button>
+            </form>
+        </div>
+    </div>
     <div style="display: inline-block"><canvas id="myChart" height="500" width="500"></canvas></div>
-    <div style="display: inline-block"><canvas id="myChart2" height="500" width="500"></canvas> </div>
+    <div style="display: inline-block"><canvas id="myChart2" height="500" width="500"></canvas></div>
+    
 </div>
+
+
+
 
 {% endblock scripts %}
 

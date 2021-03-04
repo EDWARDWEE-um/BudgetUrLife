@@ -18,7 +18,8 @@ def project_detail(request, project_slug):
     if request.method == 'GET':
         category_list = Category.objects.filter(project=project)
         totalexpense = Expense.objects.filter(project=project).values('category__name').order_by('category').annotate(total_price=Sum('amount'))
-        return render(request,'budget/project-detail.html', {'project':project, 'expense_list': project.expenses.all(),'category_list':category_list,'totalexpense':totalexpense})
+        expensename = Expense.objects.filter(project=project).values('title','amount')
+        return render(request,'budget/project-detail.html', {'project':project, 'expense_list': project.expenses.all(),'category_list':category_list,'totalexpense':totalexpense,'expensename':expensename})
     elif request.method == 'POST':
         # Process the form
         form = ExpenseForm(request.POST)
@@ -27,11 +28,12 @@ def project_detail(request, project_slug):
             amount = form.cleaned_data['amount']
             category_name = form.cleaned_data['category']
             category = get_object_or_404(Category , project=project , name=category_name)
+            
             Expense.objects.create(
                 project=project,
                 title=title,
                 amount=amount,
-                category=category
+                category=category,
             ).save()
 
     elif request.method == 'DELETE':
