@@ -1,6 +1,7 @@
 {% extends 'budget/base.html' %}
 {% block content %}
 <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.3/dist/Chart.min.js"></script>
+
 <div class='container'>
     
     <section class="section section-stats">
@@ -121,6 +122,7 @@ fetch('', {
   credentials: 'same-origin',
 })
 }
+   
 </script>
 
 {% block scripts %}
@@ -162,21 +164,37 @@ window.onload = function(){
         
     });
     var ctx2 = document.getElementById("myChart2").getContext("2d");
-    var myChart2 = new Chart(ctx2, {
+    var selectedText = "necessity";
+    const selection = function(selectedText){ // create an array of titles since u cant put js var into django template
+        var categoricals = []
+        {% for i in expensename %}
+        if(selectedText == '{{ i.category__name }}'){
+            categoricals.push('{{ i.title }}')  
+        }
+        {% endfor %} 
+        return categoricals;
+    }
+    const selectionData = function(selectedText){ // create an array of titles since u cant put js var into django template
+        var categoricals = []
+        {% for i in expensename %}
+        if(selectedText == '{{ i.category__name }}'){
+            categoricals.push('{{ i.amount }}')  
+        }
+        {% endfor %} 
+        return categoricals;
+    }
+    const setChart = function(selectedText){ // create an array of amount since u cant put js var into django template
+        return new Chart(ctx2, {
         type: 'doughnut',
         data: {
-            labels: [{% for i in expensename %}
-            '{{ i.title }}'
-            ,{% endfor %}],
+            labels: selection(selectedText),
             datasets: [{
                 label: '# of Votes',
-                data:[{% for i in expensename %}
-            '{{ i.amount }}'
-            ,{% endfor %}],
+                data:selectionData(selectedText),
                 backgroundColor: [
                     'rgba(255, 99, 132, 0.2)',
                     'rgba(54, 162, 235, 0.2)',
-                    'rgba(255, 206, 86, 0.2)',
+                    'rgba(255, 20, 86, 0.2)',
                     'rgba(75, 192, 192, 0.2)',
                     'rgba(153, 102, 255, 0.2)',
                     'rgba(255, 159, 64, 0.2)'
@@ -195,30 +213,40 @@ window.onload = function(){
         },
         
     });
+    }
+    var myChart2 = setChart(selectedText)
+     
+    document.getElementById("chooser").onchange = function getvalue(){
+        var skillsSelect = document.getElementById("chooser");
+        selectedText = skillsSelect.options[skillsSelect.selectedIndex].text;
+        myChart2 = setChart(selectedText)
+    }
+
+    
+
+   
 }
-
-
-
 
 </script>
 <div align="center">
-    <div id='selectCategory' class='selection' style=>
-        <div class="selection">
-            <h4> NANI </h4>
+    <div  class='input field'>
+        <div class="modal-content">
             <form method='POST'>
                 {% csrf_token %}
-                <select name='category' id="selectCategory2">
+                <select id='chooser' style="display:block;width:200px; margin-left: auto;" onchange="getvalue()">
                     {% for category in category_list %}
                         <option>{{ category.name }}</option>
                     {% endfor %}
                 </select>
-                <button type="submit" class="btn"> Help me </button>
             </form>
         </div>
     </div>
+    <script>
+        
+    </script>
+    
     <div style="display: inline-block"><canvas id="myChart" height="500" width="500"></canvas></div>
     <div style="display: inline-block"><canvas id="myChart2" height="500" width="500"></canvas></div>
-    
 </div>
 
 

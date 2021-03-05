@@ -38,6 +38,18 @@
   
     return categories
   }
+  function fetchCategoryArray(){
+    var categories = []
+  
+    document.querySelectorAll('.category2').forEach(function(e){
+      name = e.querySelector('.name').innerHTML
+      if (name == '') return
+  
+      categories.push(name)
+    })
+  
+    return categories
+  }
   
   function updateCategoriesString(){
     categories = fetchCategoryArray()
@@ -48,3 +60,5 @@
     e.parentElement.remove()
     updateCategoriesString()
   }
+
+  
