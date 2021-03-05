@@ -12,4 +12,5 @@ An app to track your expenses
 - Savings / Investment Projections (In Progress)
 - Track spending based on days, months and year (In Progress)
 - Deployment (In Progress)
-![battle-academia-yuumi-splash-art-lol-uhdpaper com-4K-78](https://user-images.githubusercontent.com/55220665/110158435-58487c80-7e24-11eb-829f-f37a0fb7a7fe.jpg)
+![budgetapp](https://user-images.githubusercontent.com/55220665/110158589-862dc100-7e24-11eb-8a2a-db747a4acc81.JPG)
+
