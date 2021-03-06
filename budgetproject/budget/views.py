@@ -11,6 +11,13 @@ from django.db.models import Sum
 def project_list(request):
     project_list = Project.objects.all()
     return render(request,'budget/project-list.html',{'project_list':project_list})
+def project_projections(request):
+    if request.method == 'GET':
+        category_list = Category.objects.filter(project=project)
+        totalexpense = Expense.objects.filter(project=project).values('category__name').order_by('category').annotate(total_price=Sum('amount'))
+        expensename = Expense.objects.filter(project=project).values('title','amount','category__name')
+        return render(request,'budget/project-projections.html', {'project':project, 'expense_list': project.expenses.all(),'category_list':category_list,'totalexpense':totalexpense,'expensename':expensename})
+ 
 
 def project_detail(request, project_slug):
     # fetch the correct project
