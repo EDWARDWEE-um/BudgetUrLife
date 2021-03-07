@@ -8,10 +8,23 @@
         var myChart = new Chart(ctx, {
             type: 'line',
             data: {
-                labels: ['hi'],
+                labels: [{% for y in year %}'{{ y.date_posted }}',{% endfor %}],
                 datasets: [{
                     label: '# of Votes',
-                    data:[1,2,3,4,5],
+                    data:[{
+                            x: 10,
+                            y: 20
+                        }, {
+                            x: 15,
+                            y: 500
+                        },{
+                            x: 10,
+                            y: 20
+                        },
+                        ,{
+                            x: 10,
+                            y: 30
+                        }],
                     backgroundColor: [
                         'rgba(255, 99, 132, 0.2)',
                         'rgba(54, 162, 235, 0.2)',
@@ -28,7 +41,13 @@
                         'rgba(153, 102, 255, 1)',
                         'rgba(255, 159, 64, 1)'
                     ],
-                    borderWidth: 1
+                    borderWidth: 1,
+                    scales: {
+                        xAxes: [{
+                            type: 'time',
+                            
+                        }]
+                    }
                 }]
                 
             },
@@ -39,8 +58,10 @@
     
  </script>
 <div class='container' height="500" width="500">  
-    <div class='card panel'>
-        <div style="display: inline-block"><canvas id="myChart" height="500" width="500"></canvas></div>
+        <a class="btn-floating pulse"><i class="material-icons">menu</i></a>
+        <a class="btn-floating btn-large pulse"><i class="material-icons">cloud</i></a>
+        <a class="btn-floating btn-large cyan pulse"><i class="material-icons">edit</i></a>
+        <div style="display: inline-block"><canvas id="myChart" height="1000" width="1000"></canvas></div>
     </div> 
 </div>
   

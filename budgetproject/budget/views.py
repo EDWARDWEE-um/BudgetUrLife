@@ -7,16 +7,22 @@ from django.views.generic import CreateView
 from django.utils.text import slugify
 import json
 from django.db.models import Sum
+import datetime
+
 # Create your views here.
 def project_list(request):
     project_list = Project.objects.all()
     return render(request,'budget/project-list.html',{'project_list':project_list})
-def project_projections(request):
+
+def project_projections(request,project_slug):
+    project = get_object_or_404(Project, slug=project_slug)
     if request.method == 'GET':
-        category_list = Category.objects.filter(project=project)
+        today = datetime.date.today()
+        year = Expense.objects.filter(project=project,date_posted__year=today.year).values('date_posted')
         totalexpense = Expense.objects.filter(project=project).values('category__name').order_by('category').annotate(total_price=Sum('amount'))
         expensename = Expense.objects.filter(project=project).values('title','amount','category__name')
-        return render(request,'budget/project-projections.html', {'project':project, 'expense_list': project.expenses.all(),'category_list':category_list,'totalexpense':totalexpense,'expensename':expensename})
+        return render(request,'budget/project-projections.html', {'project':project, 'expense_list': project.expenses.all(),'totalexpense':totalexpense,'expensename':expensename,'year': year})
+
  
 
 def project_detail(request, project_slug):
