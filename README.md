@@ -16,5 +16,5 @@ An app to track your expenses
 - Display data on chart (In Progress)
 ![budgetapp](https://user-images.githubusercontent.com/55220665/110158589-862dc100-7e24-11eb-8a2a-db747a4acc81.JPG)
 
-![budgetprojections](https://user-images.githubusercontent.com/55220665/110353787-6be92280-8072-11eb-8439-1b6c47ada560.JPG)
+  ![budgetprojections](https://user-images.githubusercontent.com/55220665/110353787-6be92280-8072-11eb-8439-1b6c47ada560.JPG)
 
