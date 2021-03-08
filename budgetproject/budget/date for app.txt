@@ -1,0 +1,5 @@
+{% for y in year %}'{{ y.date_posted.year }}',{% endfor %}
+
+
+views.py
+year = Expense.objects.filter(project=project,date_posted__year=today.year).values('date_posted')
