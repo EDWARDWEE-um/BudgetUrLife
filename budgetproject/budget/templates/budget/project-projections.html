@@ -5,7 +5,8 @@
 <script>
     window.onload = function(){
         var ctx = document.getElementById("myChart").getContext("2d");
-        var interestRate = 0;
+        var interestRate = 3;
+        var projectedamount = 0;
         const xLabelYear = function(year){ // create an array of years since u cant put js var into django template
             var years = []
             var year = year
@@ -30,13 +31,19 @@
             }
             return compoundedSavings;
         }
+        const extractData = function(year , interest){
+            var values = yCompoundInterest(interest)
+            var actualvalue = values[year]
+            alert(values);
+            return actualvalue;
+        }
         const selectedChart = function(interestRate){   
             return new Chart(ctx, {
             type: 'line',
             data: {
                 labels: xLabelYear('{{ today }}'),
                 datasets: [{
-                    label: ['interest rate','lol'],
+                    label: ['Selected Rate'],
                     data:
                           interestRate,
                         
@@ -64,7 +71,7 @@
                         }]
                     }
                 },{
-                    label: 'interestRate',
+                    label: 'Fixed Deposit 3% Rate ',
                     data:
                           yCompoundInterest(3),
                         
@@ -104,6 +111,15 @@
         var compund = yCompoundInterest(selectedText)
         myChart = selectedChart(compund)
     }
+    document.getElementById("year").onchange = function getYear(){
+        var skillsSelect = document.getElementById("year");
+        var skillsSelect2 = document.getElementById("interest");
+        var selectedText = skillsSelect.options[skillsSelect.selectedIndex].text;
+        var selectedText2 = skillsSelect2.options[skillsSelect2.selectedIndex].text;
+        projectedamount = extractData(skillsSelect2,skillsSelect)
+        document.getElementById("myText").innerHTML = projectedamount;
+        
+    }
     
     
 }
@@ -112,28 +128,111 @@
 </script>  
     
  </script>
-<div class='container' height="500" width="500">  
-        <div style="display: inline-block"><canvas id="myChart" height="1000" width="1000"></canvas></div>
-        <div  class='input field'>
-            <div class="modal-content">
-                <form method='POST'>
-                    {% csrf_token %}
-                    <select id='interest' style="display:block;width:60px; margin-left: auto;" onchange="getInterest()">
-                            <option> 1 %</option>
-                            <option> 2 %</option>
-                            <option> 3 %</option>
-                            <option> 4 %</option>
-                            <option> 5 %</option>
-                            <option> 6 %</option>
-                            <option> 7 %</option>
-                            <option> 8 %</option>
-                            <option> 9 %</option>
-                            <option> 10 %</option>
-                    </select>
-                </form>
-            </div>
-        </div>
-    </div> 
+<div class='container'>  
+    <section class="section section-stats">
+        <section class='row'>
+            <div class='col s24 m12 l6' style="display: inline-block">
+                
+                <div class='card-panel' style='height: 300px' >
+                    <h6 class='bold'>Current Savings</h6>
+                    <h1 class='bold'>${{ project.budget }}</h1>
+                    
+                </div>
+                
+            </div> 
+            <div class='col s24 m12 l6' style="display: inline-block">
+                <div class='card-panel' style='height: 300px' >
+                    <h6 class='bold'>Projected Amount</h6>
+                    <h1 class='bold'>$ <span id="myText"></span> </h1>
+                    <div class='input field'>
+                        <div class="modal-content ">
+                            <form method='POST'>
+
+                                {% csrf_token %}
+                                <div class='col l6'>
+                                    <label>
+                                        <h6 class='bold'>Interest Rate % </h6>
+                                    </label>
+
+                                    <select id='interest' style="display:block;width:60px;" onchange="getInterest()">
+                                            <option> 1</option>
+                                            <option> 2</option>
+                                            <option> 3</option>
+                                            <option> 4</option>
+                                            <option> 5</option>
+                                            <option> 6</option>
+                                            <option> 7</option>
+                                            <option> 8</option>
+                                            <option> 9</option>
+                                            <option> 10</option>
+                                    </select>
+                                </div>
+                                <div class='col l6'>
+                                    <label>
+                                        <h6 class='bold'>Years </h6>
+                                    </label>
+
+                                    <select id='year' style="display:block;width:60px;" onchange="getYear()">
+                                            <option> 1</option>
+                                            <option> 2</option>
+                                            <option> 3</option>
+                                            <option> 4</option>
+                                            <option> 5</option>
+                                            <option> 6</option>
+                                            <option> 7</option>
+                                            <option> 8</option>
+                                            <option> 9</option>
+                                            <option> 10</option>
+                                            <option> 11</option>
+                                            <option> 12</option>
+                                            <option> 13</option>
+                                            <option> 14</option>
+                                            <option> 15</option>
+                                            <option> 16</option>
+                                            <option> 17</option>
+                                            <option> 18</option>
+                                            <option> 19</option>
+                                            <option> 20</option>
+                                            <option> 21</option>
+                                            <option> 22</option>
+                                            <option> 23</option>
+                                            <option> 24</option>
+                                            <option> 25</option>
+                                            <option> 26</option>
+                                            <option> 27</option>
+                                            <option> 28</option>
+                                            <option> 29</option>
+                                            <option> 30</option>
+                                            <option> 31</option>
+                                            <option> 32</option>
+                                            <option> 33</option>
+                                            <option> 34</option>
+                                            <option> 35</option>
+                                            <option> 36</option>
+                                            <option> 37</option>
+                                            <option> 38</option>
+                                            <option> 39</option>
+                                            <option> 40</option>
+                                            <option> 41</option>
+                                            <option> 42</option>
+                                            <option> 43</option>
+                                            <option> 44</option>
+                                            <option> 45</option>
+                                            <option> 46</option>
+                                            <option> 47</option>
+                                            <option> 48</option>
+                                            <option> 49</option>
+                                            <option> 50</option>
+                                    </select>
+                                </div>
+                            </form>
+                        </div>
+                    </div>  
+                </div>
+            </div> 
+            <div class='card-panel col s24 m12 l12' style="display: inline-block"><canvas id="myChart" height="1000" width="1000"></canvas></div>
+
+        </section>
 </div>
   
 {% endblock %}
