@@ -6,7 +6,6 @@
     window.onload = function(){
         var ctx = document.getElementById("myChart").getContext("2d");
         var interestRate = 3;
-        var projectedamount = 0;
         const xLabelYear = function(year){ // create an array of years since u cant put js var into django template
             var years = []
             var year = year
@@ -32,8 +31,10 @@
             return compoundedSavings;
         }
         const extractData = function(year , interest){
-            var values = yCompoundInterest(interest)
-            var actualvalue = values[year]
+            var interestR = interest
+            var yearZ = year
+            var values = yCompoundInterest(interestR)
+            var actualvalue = values[yearZ]
             alert(values);
             return actualvalue;
         }
@@ -114,9 +115,10 @@
     document.getElementById("year").onchange = function getYear(){
         var skillsSelect = document.getElementById("year");
         var skillsSelect2 = document.getElementById("interest");
-        var selectedText = skillsSelect.options[skillsSelect.selectedIndex].text;
-        var selectedText2 = skillsSelect2.options[skillsSelect2.selectedIndex].text;
-        projectedamount = extractData(skillsSelect2,skillsSelect)
+        var yearZ = skillsSelect.options[skillsSelect.selectedIndex].text;
+        var interestZ = skillsSelect2.options[skillsSelect2.selectedIndex].text;
+        var arrayz = yCompoundInterest(interestZ)
+        var projectedamount = Math.round(arrayz[yearZ])
         document.getElementById("myText").innerHTML = projectedamount;
         
     }
