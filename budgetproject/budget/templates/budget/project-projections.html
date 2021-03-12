@@ -4,6 +4,7 @@
 
 <script>
     window.onload = function(){
+
         var ctx = document.getElementById("myChart").getContext("2d");
         var interestRate = 3;
         const xLabelYear = function(year){ // create an array of years since u cant put js var into django template
@@ -19,10 +20,8 @@
             var savingsInvestments = 0
             var compoundedSavings = []
             var finalinterest = (interest/100) + 1
-            {% for i in expensename %}
-                if('{{ i.category__name }}' == 'savings and investments'){
-                    savingsInvestments = '{{ i.amount }}' 
-                }
+            {% for i in totalexpense %}                  
+            savingsInvestments = {{ i.total_price }}
             {% endfor %}
             for (i=0;i< 50; i++){
                 compoundedSavings.push(savingsInvestments)
@@ -102,7 +101,8 @@
             },
             
         });}
-    var myChart2 = selectedChart(interestRate)
+        
+    var myChart = selectedChart(interestRate)
     
     // Create a function to store getelementid values?
     
@@ -135,15 +135,18 @@
         <section class='row'>
             <div class='col s24 m12 l6' style="display: inline-block">
                 
-                <div class='card-panel' style='height: 300px' >
+                <div class='card-panel' style='height: 250px' >
                     <h6 class='bold'>Current Savings</h6>
-                    <h1 class='bold'>${{ project.budget }}</h1>
+                    <h1 class='bold'>
+                        {% for i in totalexpense %}                  
+                        $ {{ i.total_price }}
+                        {% endfor %}</h1>
                     
                 </div>
                 
             </div> 
             <div class='col s24 m12 l6' style="display: inline-block">
-                <div class='card-panel' style='height: 300px' >
+                <div class='card-panel' style='height: 250px' >
                     <h6 class='bold'>Projected Amount</h6>
                     <h1 class='bold'>$ <span id="myText"></span> </h1>
                     <div class='input field'>
@@ -224,7 +227,6 @@
                                             <option> 47</option>
                                             <option> 48</option>
                                             <option> 49</option>
-                                            <option> 50</option>
                                     </select>
                                 </div>
                             </form>
@@ -232,9 +234,10 @@
                     </div>  
                 </div>
             </div> 
-            <div class='card-panel col s24 m12 l12' style="display: inline-block"><canvas id="myChart" height="1000" width="1000"></canvas></div>
+            <div class='card-panel col s24 m12 l12' style="display: inline-block"><canvas id="myChart" height="800" width="800"></canvas></div>
 
         </section>
+
 </div>
   
 {% endblock %}

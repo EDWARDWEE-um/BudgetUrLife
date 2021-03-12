@@ -18,7 +18,7 @@ def project_projections(request,project_slug):
     project = get_object_or_404(Project, slug=project_slug)
     if request.method == 'GET':
         today = datetime.date.today().year
-        totalexpense = Expense.objects.filter(project=project).values('category__name').order_by('category').annotate(total_price=Sum('amount'))
+        totalexpense = Expense.objects.filter(project=project,category__name = 'savings and investments').values('category__name').order_by('category').annotate(total_price=Sum('amount'))
         expensename = Expense.objects.filter(project=project).values('title','amount','category__name')
         return render(request,'budget/project-projections.html', {'project':project, 'expense_list': project.expenses.all(),'totalexpense':totalexpense,'expensename':expensename,'today': today})
 
