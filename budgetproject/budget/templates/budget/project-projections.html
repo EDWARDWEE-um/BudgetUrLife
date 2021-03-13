@@ -119,7 +119,13 @@
         var interestZ = skillsSelect2.options[skillsSelect2.selectedIndex].text;
         var arrayz = yCompoundInterest(interestZ)
         var projectedamount = Math.round(arrayz[yearZ])
-        document.getElementById("myText").innerHTML = projectedamount;
+        document.getElementById("projectedamount").innerHTML = projectedamount;
+        var currentamount = 0
+        {% for i in totalexpense %}                  
+            currentamount = {{ i.total_price }}
+        {% endfor %}
+        var growthrate = Math.round(projectedamount/currentamount * 100 );
+        document.getElementById("growth").innerHTML = growthrate;
         
     }
     
@@ -147,8 +153,8 @@
             </div> 
             <div class='col s24 m12 l6' style="display: inline-block">
                 <div class='card-panel' style='height: 250px' >
-                    <h6 class='bold'>Projected Amount</h6>
-                    <h1 class='bold'>$ <span id="myText"></span> </h1>
+                    <h6 class='bold'>Projected Amount  $  | Projected Growth Rate %  </h6>
+                    <h1 class='bold'>$ <span id="projectedamount"></span> | <span id="growth"></span> % </h1>
                     <div class='input field'>
                         <div class="modal-content ">
                             <form method='POST'>
