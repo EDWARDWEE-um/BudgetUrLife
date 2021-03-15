@@ -3,8 +3,9 @@
 <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.3/dist/Chart.min.js"></script>
 
 <script>
+    
     window.onload = function(){
-
+        
         var ctx = document.getElementById("myChart").getContext("2d");
         var ctx2 = document.getElementById("myChart2").getContext("2d");
         var interestRate = 3;
@@ -178,6 +179,11 @@
         var compund = yCompoundInterest(selectedText)
         myChart = selectedChart(compund)
     }
+    document.querySelector('#month[type="month"]').onchange = function getMonth(){
+    var x = document.getElementById("month").min = "2021-01";
+    var monthControl = document.querySelector('#month[type="month"]').value;
+    }
+    
     document.getElementById("year").onchange = function getYear(){
         var skillsSelect = document.getElementById("year");
         var skillsSelect2 = document.getElementById("interest");
@@ -194,14 +200,14 @@
         document.getElementById("growth").innerHTML = growthrate;
         
     }
+
     
     
 }
-    
-    
-</script>  
-    
+      
  </script>
+
+
 <div class='container'>  
     <section class="section section-stats">
         <section class='row'>
@@ -308,13 +314,29 @@
             </div> 
             <div class='card-panel col s24 m12 l12' style="display: inline-block"><canvas id="myChart" height="800" width="800"></canvas></div>
        
-            <div class='col s24 m12 l12' style="display: inline-block">          
-                <div class='card-panel' style='height: 250px' >
-                    <h6 class='bold'>Current Savings</h6>
-                    <h1 class='bold'>
-                        {% for i in totalexpense %}                  
-                        $ {{ i.total_price }}
-                        {% endfor %}</h1>       
+            <div class='col s24 m12 l6' style="display: inline-block">          
+                <div class='card-panel' style='height: 200px' >
+                    <h6 class='bold'> $ Monthly Targeted Savings | Targeted Year of Retirement </h6>
+                    <div class="input-field col l4" height='500'>
+                        <input value="100" id="first_name2" type="number" class="validate">
+                        <i class="material-icons prefix">attach_money</i>
+
+                    </div>
+                    <div class="input-field col l4" height='500' style='padding-left: 70px; padding-top: 20px;'>
+                        <input id="month" type="month" min="2021-03" onchange="getMonth()">
+                    </div>
+                          
+                </div>
+            </div> 
+            <div class='col s24 m12 l6' style="display: inline-block">          
+                <div class='card-panel' style='height: 200px' >
+                    <h6 class='bold'> $ Monthly Targeted Savings </h6>
+                    <div class="input-field col l5" height='500'>
+                        <input value="100" id="first_name2" type="number" class="validate">
+                        <i class="material-icons prefix">attach_money</i>
+
+                    </div>
+                          
                 </div>
             </div> 
             <div class='card-panel col s24 m12 l12' style="display: inline-block"><canvas id="myChart2" height="800" width="800"></canvas></div>
