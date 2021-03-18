@@ -179,10 +179,7 @@
         var compund = yCompoundInterest(selectedText)
         myChart = selectedChart(compund)
     }
-    document.querySelector('#month[type="month"]').onchange = function getMonth(){
-    var x = document.getElementById("month").min = "2021-01";
-    var monthControl = document.querySelector('#month[type="month"]').value;
-    }
+   
     
     document.getElementById("year").onchange = function getYear(){
         var skillsSelect = document.getElementById("year");
@@ -199,6 +196,15 @@
         var growthrate = Math.round(projectedamount/currentamount * 100 );
         document.getElementById("growth").innerHTML = growthrate;
         
+    }
+
+
+    document.getElementById('buttoncal').onclick = function calculate(){
+        var monthControl = document.querySelector('#month[type="month"]').value;
+        var estimate = document.getElementById('estimatemonthlysavings').value;
+        var totalsavings = document.getElementById('totalsavings').value;
+        var interest = document.getElementById('interesteste').value;
+        alert(estimate +" " + monthControl+" "+totalsavings+" "+interest);
     }
 
     
@@ -312,34 +318,54 @@
                     </div>  
                 </div>
             </div> 
-            <div class='card-panel col s24 m12 l12' style="display: inline-block"><canvas id="myChart" height="800" width="800"></canvas></div>
+            <div class='card-panel col s24 m12 l12' style="display: inline-block"><canvas id="myChart" height="550" width="800"></canvas></div>
        
-            <div class='col s24 m12 l6' style="display: inline-block">          
+            <div class='col s24 m12 l12' style="display: inline-block">          
                 <div class='card-panel' style='height: 200px' >
-                    <h6 class='bold'> $ Monthly Targeted Savings | Targeted Year of Retirement </h6>
-                    <div class="input-field col l4" height='500'>
-                        <input value="100" id="first_name2" type="number" class="validate">
-                        <i class="material-icons prefix">attach_money</i>
-
+                    <h6 class='bold' style='white-space: pre;'> $ Monthly Targeted Savings                      Targeted Year of Retirement                      Current Total Savings                      Interest Rate%          </h6>
+                    <div class="input-field col l3" height='500'>
+                        <input value="100" id="estimatemonthlysavings" type="number" >
+                        
+                        <button class="btn waves-effect waves-light" type="submit" name="action" id='buttoncal' onClick='calculate()'>Calculate
+                            <i class="material-icons right">send</i>
+                        </button>
                     </div>
                     <div class="input-field col l4" height='500' style='padding-left: 70px; padding-top: 20px;'>
-                        <input id="month" type="month" min="2021-03" onchange="getMonth()">
+                        <input id="month" type="month" min="2021-03" value='2050-01' onchange="getMonth()">
+                        
                     </div>
-                          
-                </div>
-            </div> 
-            <div class='col s24 m12 l6' style="display: inline-block">          
-                <div class='card-panel' style='height: 200px' >
-                    <h6 class='bold'> $ Monthly Targeted Savings </h6>
-                    <div class="input-field col l5" height='500'>
-                        <input value="100" id="first_name2" type="number" class="validate">
-                        <i class="material-icons prefix">attach_money</i>
+                    <div class="input-field col l3" height='500'>
+                        <input value="0" id="totalsavings" type="number">
+                    </div>                            
+                    <div class='col l2 ' style= 'padding-top: 20px;'>
+                    
 
-                    </div>
+                        <select id='interesteste' style="display:block;width:60px;" >
+                                <option> 0</option>
+                                <option> 1</option>
+                                <option> 2</option>
+                                <option> 3</option>
+                                <option> 4</option>
+                                <option> 5</option>
+                                <option> 6</option>
+                                <option> 7</option>
+                                <option> 8</option>
+                                <option> 9</option>
+                                <option> 10</option>
+                        </select>
+                </div>
+                
+                </div>
+                
+            </div> 
+            <div class='col s24 m12 l12' style="display: inline-block">          
+                <div class='card-panel' style='height: 200px' >
+                    <h6 class='bold'  style='white-space: pre;'> $ Total Estimated Savings        |        Retirement Age | Monthly Expenses | Years </h6>
+                    <h2 class='bold'> $ 500000 | 29</h2>
                           
                 </div>
             </div> 
-            <div class='card-panel col s24 m12 l12' style="display: inline-block"><canvas id="myChart2" height="800" width="800"></canvas></div>
+            <div class='card-panel col s24 m12 l12' style="display: inline-block"><canvas id="myChart2" height="550" width="800"></canvas></div>
         </section>
 
         </section>
