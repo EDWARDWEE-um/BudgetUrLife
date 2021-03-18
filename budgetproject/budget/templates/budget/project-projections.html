@@ -18,6 +18,19 @@
             }
             return years;
         }
+        const xLabelYearRetirement = function(year){ // create an array of years forsince u cant put js var into django template
+            var years = []
+            var parsedyear = year.toString().split("-")
+            var j = parseInt(parsedyear[0])
+            var curryear = parseInt(new Date().getFullYear())
+            console.log(j-curryear)
+            for (i=curryear;i< j+1; i++){
+                years.push(curryear)
+                curryear++
+            }
+            console.log(years)
+            return years;
+        }
         const yCompoundInterest = function(interest){ // create an array of compounded savings since u cant put js var into django template
             var savingsInvestments = 0
             var compoundedSavings = []
@@ -29,6 +42,55 @@
                 compoundedSavings.push(savingsInvestments)
                 savingsInvestments *= finalinterest
             }
+            return compoundedSavings;
+        }
+        const yCompoundInterestRetire = function(monthlysavings,monthyear,currenttotalsavings,interest){ // create an array of compounded savings for 2nd graph since u cant put js var into django template
+            var parsedyear = monthyear.toString().split("-")
+            var yearstoretire = 0
+            var currentyear = parseInt(new Date().getFullYear())
+            var currentmonth = parseInt(new Date().getMonth()) + 1
+            var futureyear = parseInt( parsedyear[0])
+            var futuremonth = parseInt( parsedyear[1]) 
+            var remainmonth = 0
+            var remainyear = 0
+            var principleamount = 0 // starting amount
+            var compoundedSavings = []
+            var finalinterest = (interest/100) + 1
+            var totalmonth = 0
+            // If totalyear = 0 
+            if (futureyear - currentyear == 0 ){
+                remainmonth = futuremonth - currentmonth
+            }else{
+                if(currentmonth>futuremonth){
+                    futuremonth+=12 
+                    remainmonth = futuremonth - currentmonth 
+                    remainyear = futureyear - currentyear - 1 
+                    console.log(remainmonth +" "+remainyear);
+                }
+                else{
+                    remainmonth = futuremonth - currentmonth 
+                    remainyear = futureyear - currentyear
+                }
+            }
+            totalmonth = remainmonth + remainyear*12
+            var totalsaves = parseInt(currenttotalsavings)
+            principleamount =  totalsaves
+            for (i=0;i< remainyear + 1; i++){
+              
+                if(totalmonth<12){
+                    principleamount += totalmonth * monthlysavings
+                    compoundedSavings.push(principleamount)
+                    break;
+                }
+                else{
+                    principleamount += 12 * monthlysavings
+                    totalmonth -= 12
+                    principleamount *= finalinterest
+                    compoundedSavings.push(principleamount)
+
+                }
+                }
+            console.log(compoundedSavings);
             return compoundedSavings;
         }
         const extractData = function(year , interest){
@@ -103,15 +165,15 @@
             },
             
         });}
-        const selectedChart2 = function(interestRate){   
+        const selectedChart2 = function(xaxis,yaxis,interestRate){   
             return new Chart(ctx2, {
             type: 'line',
             data: {
-                labels: xLabelYear('{{ today }}'),
+                labels: xaxis,
                 datasets: [{
                     label: ['Selected Rate'],
                     data:
-                          interestRate,
+                         yaxis,
                         
                     backgroundColor: [
                         'rgba(255, 99, 132, 0.2)',
@@ -139,7 +201,7 @@
                 },{
                     label: 'Fixed Deposit 3% Rate ',
                     data:
-                          yCompoundInterest(3),
+                          yaxis,
                         
                     backgroundColor: [
                         'rgba(54, 162, 235, 0.2)',
@@ -169,7 +231,7 @@
         });}
         
     var myChart = selectedChart(interestRate)
-    var myChart2 = selectedChart2(interestRate)
+    var myChart2;
     
     // Create a function to store getelementid values?
     
@@ -204,7 +266,10 @@
         var estimate = document.getElementById('estimatemonthlysavings').value;
         var totalsavings = document.getElementById('totalsavings').value;
         var interest = document.getElementById('interesteste').value;
-        alert(estimate +" " + monthControl+" "+totalsavings+" "+interest);
+        var xaxis = xLabelYearRetirement(monthControl)
+        var yaxis = yCompoundInterestRetire(estimate,monthControl,totalsavings,interest)
+        myChart2 = selectedChart2(xaxis,yaxis)
+        alert(estimate +" " + monthControl+" "+totalsavings+" "+interest+" "+curryear);
     }
 
     
@@ -341,7 +406,6 @@
                     
 
                         <select id='interesteste' style="display:block;width:60px;" >
-                                <option> 0</option>
                                 <option> 1</option>
                                 <option> 2</option>
                                 <option> 3</option>
